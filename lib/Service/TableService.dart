@@ -5,12 +5,13 @@ import 'dart:convert';
 import 'package:ristorbi/Models/Table.dart';
 
 class TableService {
-  final baseUrl = "http://10.0.2.2:3000/tables";
+  final baseUrl = "https://ristorbiservice.jestara.com/api/";
 
 Future<List<TableModel>> getTables() async{
-   final response = await http.get(baseUrl);
-    // debugPrint('TABLE SERVİCE HTTP GET -->');
-    // debugPrint(response.body);
+   final tablesURL = baseUrl + 'tables/getall';
+   final response = await http.get(tablesURL);
+    debugPrint('TABLE SERVİCE HTTP GET -->');
+    debugPrint(response.body);
    if(response.statusCode != 200){
      print('PRİNT STATUS 200 DEĞİL');
      throw Exception('Service Bağlantısı Sağlanamadı !!!!');

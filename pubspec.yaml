@@ -59,6 +59,7 @@ flutter:
   assets:
     - assets/images/RLogo.png
     - assets/loading.gif
+    - assets/table.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

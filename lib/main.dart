@@ -29,11 +29,11 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => LoginScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => BlocProvider(create: (context) => TableBloc(),child: HomeScreen()),
         '/tableDetail': (context) => BlocProvider(create: (context) => TableBloc(),child: TableDetailScreen()),
         '/setting': (context) => SettingScreen(),
       },
-      initialRoute: '/tableDetail',
+      initialRoute: '/',
     );
   }
 }
