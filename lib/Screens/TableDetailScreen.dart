@@ -1,13 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ristorbi/Blocs/Table/table_bloc.dart';
-import 'package:ristorbi/Blocs/Table/table_event.dart';
-import 'package:ristorbi/Blocs/Table/table_state.dart';
 import 'package:ristorbi/Models/Table.dart';
-import 'package:ristorbi/Repository/TableRepository.dart';
-import 'package:ristorbi/Service/TableService.dart';
+import 'package:ristorbi/Screens/ProductListScreen.dart';
 import 'package:ristorbi/Widgets/AppBarWidget.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TableDetailScreen extends StatefulWidget {
   @override
@@ -15,35 +10,92 @@ class TableDetailScreen extends StatefulWidget {
 }
 
 class _TableDetailScreenState extends State<TableDetailScreen> {
-  @override
+  static List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Index 0: Home',
+    ),
+    ProductListScreen(),
+  ];
+  int _buttomNavigationSelectedIndex = 0;
+
   Widget build(BuildContext context) {
+    final TableModel table = ModalRoute.of(context).settings.arguments;
+    Widget _onItemTapped(int index) {
+      setState(() {
+        _buttomNavigationSelectedIndex = index;
+      });
+      if(index == 1)
+        {
+         Navigator.pushNamed(context, '/products', arguments: table);
+        }
+      else if(index == 2){
+        _showMyDialog(context);
+      }
+    }
+
     return Scaffold(
       appBar: AppBarWidget(
-        title: Text('Masa Detay',style: TextStyle(color: Colors.black),),
+        title: Text(
+          table.name,
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _buttomNavigationSelectedIndex,
+        onTap: _onItemTapped,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'AnaSayfa'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_shopping_cart_rounded),
+              backgroundColor: Colors.amber,
+              label: 'Sipariş Al'),
+             BottomNavigationBarItem(
+              icon: Icon(
+                Icons.account_balance_wallet,
+                color: Colors.red,
+              ),
+              backgroundColor: Colors.teal,
+              label: 'Adisyon'),
+        ],
       ),
       body: Center(
-        child: Text('Masa Detay'),
+        child: RaisedButton(child: Text('ShowAlertDialog'),onPressed: (){
+          _showMyDialog(context);
+        },),
       ),
     );
   }
 }
 
-// GridView.count(
-// crossAxisCount: 3,
-// padding: EdgeInsets.all(16.0),
-// children: tables.map((table) => return Card(
-// elevation: 4,
-// child: Container(
-// child: Column(
-// children: [
-// Expanded(child:
-// Container(
-// child: (
-// AssetImage('assets/table.jpg'),
-// ),
-// )),
-// Text(table.name),
-// ],
-// ),
-// ),
-// ) )
+Future<void> _showMyDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Adisyon basılıcak emin misiniz ?'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('Bu işlemi yaptığınızda;'),
+              Text('Masa oturumu kapatılacak ve adisyon yazılıcak'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('İptal'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),TextButton(
+            child: Text('Devam'),
+            onPressed: () {
+              debugPrint('Alert Dialog Clicked');
+            },
+          )
+        ],
+      );
+    },
+  );
+}

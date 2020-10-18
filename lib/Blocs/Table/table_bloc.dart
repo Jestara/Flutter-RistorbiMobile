@@ -33,6 +33,7 @@ class TableBloc extends Bloc<TableEvents, TableState> {
       } catch (error) {
        // debugPrint(error);
         //yield TableErrorState();
+        yield  TableErrorState();
 
       }
     }
