@@ -1,0 +1,58 @@
+{
+  "tables": [{
+    "id": 1,
+    "name": "Masa 1",
+    "products": [
+      {
+        "id" : 1,
+        "productName": "Tavuk Döner",
+        "productCategory": "Dönerler",
+        "price": "15",
+        "imgUrl": "https://i4.hurimg.com/i/hurriyet/75/750x422/56f3ab4918c7736fd8598fe0.jpg"
+      },
+      {
+        "id" : 2,
+        "productName": "Izgara Köfte",
+        "productCategory": "Izgara",
+        "price": "20",
+        "imgUrl": "https://i0.wp.com/www.tarifdefteri.net/wp-content/uploads/2020/05/izgara-k%C3%B6fte-tarifi.jpg?resize=500%2C375&ssl=1"
+      }
+    ,
+      {
+        "id" : 3,
+        "productName": "Tavuk Şiş",
+        "productCategory": "Izgara",
+        "price": "23",
+        "imgUrl": "https://i.pstimaj.com/img/75/740x418/5e561c43ae298b1b1e67e870.jpg"
+      }
+    ]
+  },
+    {
+      "id": 1,
+      "name": "Masa 2",
+      "products": [
+        {
+          "id" : 1,
+          "productName": "Tavuk Döner",
+          "productCategory": "Dönerler",
+          "price": "15",
+          "imgUrl": "https://i4.hurimg.com/i/hurriyet/75/750x422/56f3ab4918c7736fd8598fe0.jpg"
+        },
+        {
+          "id" : 2,
+          "productName": "Izgara Köfte",
+          "productCategory": "Izgara",
+          "price": "20",
+          "imgUrl": "https://i0.wp.com/www.tarifdefteri.net/wp-content/uploads/2020/05/izgara-k%C3%B6fte-tarifi.jpg?resize=500%2C375&ssl=1"
+        }
+      ,
+        {
+          "id" : 3,
+          "productName": "Tavuk Şiş",
+          "productCategory": "Izgara",
+          "price": "23",
+          "imgUrl": "https://i.pstimaj.com/img/75/740x418/5e561c43ae298b1b1e67e870.jpg"
+        }
+      ]
+    }]
+}
