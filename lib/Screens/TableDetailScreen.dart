@@ -10,15 +10,11 @@ class TableDetailScreen extends StatefulWidget {
 }
 
 class _TableDetailScreenState extends State<TableDetailScreen> {
-  static List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-    ),
-    ProductListScreen(),
-  ];
   int _buttomNavigationSelectedIndex = 0;
 
   Widget build(BuildContext context) {
+
+
     final TableModel table = ModalRoute.of(context).settings.arguments;
     Widget _onItemTapped(int index) {
       setState(() {
@@ -35,6 +31,9 @@ class _TableDetailScreenState extends State<TableDetailScreen> {
 
     return Scaffold(
       appBar: AppBarWidget(
+        leading: IconButton(icon: Icon(Icons.backspace),onPressed: (){
+          Navigator.pop(context);
+        },),
         title: Text(
           table.name,
           style: TextStyle(color: Colors.black),

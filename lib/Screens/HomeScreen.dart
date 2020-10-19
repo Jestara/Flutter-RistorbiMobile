@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  int selectedIndex = 0;
   int _currentIndex = 0;
 
   @override
@@ -51,17 +52,17 @@ class _HomeScreenState extends State<HomeScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          // ignore: missing_return
           BlocBuilder<AreaBloc, AreaState>(builder: (context, state) {
             if (state is AreaInitial) {
               final areaBloc = context.bloc<AreaBloc>();
               areaBloc.add(AreaEvent.getAreas);
               return Text('');
             } else if (state is AreaLoadingState) {
-              return CircularProgressIndicator();
+              return Text('');
             } else if (state is AreaLoadedState) {
               final areas = state.areas;
-              print(areas[0].name);
-              return buildCategoriesWidgets(context, areas);
+              return buildAreasWidgets(context, areas);
             } else if (state is AreaErrorState) {
               return Center(
                 child: Text('Areas Getirilemedi'),
@@ -70,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen>
           }),
           Expanded(
             child:
+                // ignore: missing_return
                 BlocBuilder<TableBloc, TableState>(builder: (context, state) {
               if (state is TableInitial) {
                 final tableBloc = context.bloc<TableBloc>();
@@ -92,81 +94,85 @@ class _HomeScreenState extends State<HomeScreen>
       ),
     );
   }
-}
 
-buildCategoriesWidgets(BuildContext context, List<Area> areas) {
+  buildAreasWidgets(BuildContext context, List<Area> areas) {
 
-  print(areas[0].name);
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-      children: List.generate(areas.length, (index) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(areas.length, (index) {
+          return InkWell(
+            onTap: () {},
+            child: CategoryItem(
+              title: areas[index].name,
+              isActive: selectedIndex == index ? true : false,
+              press: () {
+                setState(() {
+                  selectedIndex = index;
+                });
+                print(areas[index].id);
+              },
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  buildTableWidgets(BuildContext context, List<TableModel> tables) {
+    return GridView.count(
+      padding: EdgeInsets.all(16.0),
+      crossAxisCount: 3,
+      children: List.generate(tables.length, (index) {
         return InkWell(
-          onTap: () {},
-          child: CategoryItem(
-            title: areas[index].name,
-            isActive: true,
-            press: () {
-              print(areas[index].name);
+            onTap: () {
+              navigateTableDetail(context, tables[index]);
             },
-          ),
-        );
+            child: Card(
+              elevation: 5,
+              margin: EdgeInsets.all(8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/table.jpg',
+                        height: 75,
+                        width: 75,
+                        fit: BoxFit.cover,
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      Text(tables[index].name)
+                    ],
+                  ),
+                  Positioned(
+                      height: 20,
+                      width: 20,
+                      right: 1,
+                      top: 1,
+                      child: CircleAvatar(
+                        backgroundColor:
+                        tables[index].status ? Colors.teal : Colors.red,
+                      ))
+                ],
+              ),
+            ));
       }),
-    ),
-  );
-}
+    );
+  }
 
-buildTableWidgets(BuildContext context, List<TableModel> tables) {
-  return GridView.count(
-    padding: EdgeInsets.all(16.0),
-    crossAxisCount: 3,
-    children: List.generate(tables.length, (index) {
-      return InkWell(
-          onTap: () {
-            navigateTableDetail(context, tables[index]);
-          },
-          child: Card(
-            elevation: 5,
-            margin: EdgeInsets.all(8.0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/table.jpg',
-                      height: 75,
-                      width: 75,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Text(tables[index].name)
-                  ],
-                ),
-                Positioned(
-                    height: 20,
-                    width: 20,
-                    right: 1,
-                    top: 1,
-                    child: CircleAvatar(
-                      backgroundColor:
-                          tables[index].status ? Colors.teal : Colors.red,
-                    ))
-              ],
-            ),
-          ));
-    }),
-  );
-}
+  void navigateTableDetail(BuildContext context, TableModel table) {
+    debugPrint('TIKLANAN TABLE ${table.name}');
+    Navigator.pushNamed(context, '/tableDetail', arguments: table);
+  }
 
-void navigateTableDetail(BuildContext context, TableModel table) {
-  debugPrint('TIKLANAN TABLE ${table.name}');
-  Navigator.pushNamed(context, '/tableDetail', arguments: table);
+
 }

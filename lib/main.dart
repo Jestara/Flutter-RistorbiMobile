@@ -12,6 +12,7 @@ import 'package:ristorbi/Screens/TableDetailScreen.dart';
 import 'package:ristorbi/Service/TableService.dart';
 import 'package:ristorbi/locator.dart';
 
+import 'Blocs/Product/product_bloc.dart';
 import 'Blocs/Table/table_state.dart';
 
 void main() {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<TableBloc>(create: (context) => TableBloc()),
         BlocProvider<CategoryBloc>(create: (context) => CategoryBloc()),
         BlocProvider<AreaBloc>(create: (context) => AreaBloc()),
+        BlocProvider<ProductBloc>(create: (context) => ProductBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

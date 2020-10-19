@@ -2,14 +2,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:ristorbi/Models/Category.dart';
-import 'package:ristorbi/constants.dart';
+
+import '../constants.dart';
 
 
 class CategoryService {
 
 
       Future<List<Category>> getCategories() async{
-        final categoriesUrl = baseUrl + 'areas/getall';
+        final categoriesUrl = baseUrl + 'categories/getall';
         final response = await http.get(categoriesUrl);
            print('CATEGORY SERVİCE HTTP GET -->');
            print(response.body);
